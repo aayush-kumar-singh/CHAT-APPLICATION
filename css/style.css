@@ -27,26 +27,27 @@
 /* Smooth animations */
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;              /* 👈 lock body to viewport */
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text-main);
   background: radial-gradient(circle at top left, var(--bg-gradient-start), #141432) fixed;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: stretch;       /* 👈 app stretches full height */
   padding: 16px;
+  overflow: hidden;           /* 👈 prevent page scroll; only chat area scrolls */
 }
 
 /* ========== App Shell ========== */
 .app {
   width: 100%;
   max-width: 960px;
-  height: 100%;
-  max-height: 680px;
+  height: 100%;               /* 👈 fill body height */
   background: var(--card-bg);
   border-radius: 28px;
   border: 1px solid var(--card-border);
@@ -148,7 +149,7 @@ body {
 .container {
   flex: 1;
   padding: 10px 4px 10px 0;
-  overflow-y: auto;
+  overflow-y: auto;           /* 👈 only this scrolls */
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -332,7 +333,7 @@ body {
 @keyframes floatIn {
   from {
     transform: translateY(6px);
-  opacity: 0;
+    opacity: 0;
   }
   to {
     transform: translateY(0);
@@ -371,9 +372,8 @@ body {
 
 /* ========== Responsive Styles ========== */
 @media (max-width: 768px) {
-  .app {
-    max-height: none;
-    height: 100%;
+  body {
+    padding: 8px;
   }
 
   .navbar {
@@ -413,7 +413,7 @@ body {
 
 @media (max-width: 480px) {
   body {
-    padding: 6px;
+    padding: 4px;
   }
 
   .app {
