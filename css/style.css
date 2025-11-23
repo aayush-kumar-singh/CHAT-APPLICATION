@@ -24,30 +24,30 @@
   --radius-pill: 999px;
 }
 
-/* Smooth animations */
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
   height: 100%;
 }
 
 body {
-  height: 100vh;              /* 👈 lock body to viewport */
+  height: 100vh; /* lock body to viewport */
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text-main);
   background: radial-gradient(circle at top left, var(--bg-gradient-start), #141432) fixed;
   display: flex;
   justify-content: center;
-  align-items: stretch;       /* 👈 app stretches full height */
+  align-items: stretch; /* app stretches full height */
   padding: 16px;
-  overflow: hidden;           /* 👈 prevent page scroll; only chat area scrolls */
+  overflow: hidden; /* prevent page scroll; only chat area scrolls */
 }
 
 /* ========== App Shell ========== */
 .app {
   width: 100%;
   max-width: 960px;
-  height: 100%;               /* 👈 fill body height */
+  height: 100%;
   background: var(--card-bg);
   border-radius: 28px;
   border: 1px solid var(--card-border);
@@ -80,13 +80,13 @@ body {
   gap: 12px;
 }
 
+/* Logo as <img> */
 .logo {
   display: block;
   width: 46px;
   height: 46px;
   border-radius: 16px;
   object-fit: cover;
-  background: radial-gradient(circle, #ffffff 0%, #dfe4ff 40%, #aaaadf 100%);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
   transform-origin: center;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -114,7 +114,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Right side status */
 .nav-right {
   display: flex;
   align-items: center;
@@ -140,35 +139,33 @@ body {
 .chat-wrapper {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1; /* takes remaining height */
   padding: 14px 18px 18px;
   gap: 12px;
+  overflow: hidden; /* hide wrapper scroll, only messages scroll */
 }
 
-/* Messages container */
+/* Messages container (scrolls) */
 .container {
-  flex: 1;
+  flex-grow: 1;
   padding: 10px 4px 10px 0;
-  overflow-y: auto;           /* 👈 only this scrolls */
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px; /* spacing between messages */
 }
 
 /* Custom scrollbar */
 .container::-webkit-scrollbar {
   width: 6px;
 }
-
 .container::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .container::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.16);
   border-radius: 999px;
 }
-
 .container::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.28);
 }
@@ -181,8 +178,9 @@ body {
   font-size: 0.95rem;
   line-height: 1.35;
   word-wrap: break-word;
+  overflow-wrap: break-word;
   white-space: pre-wrap;
-  margin: 2px 8px;
+  margin: 0 8px;
   position: relative;
   animation: floatIn 0.18s ease-out;
 }
@@ -204,18 +202,6 @@ body {
   box-shadow: 0 10px 25px rgba(108, 92, 231, 0.45);
 }
 
-/* System messages (join / left notifications) */
-.system {
-  align-self: center;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  border: none;
-  box-shadow: none;
-  padding: 4px 8px;
-  margin: 8px 0;
-}
-
 /* Small glowing accent under right bubbles */
 .right::after {
   content: "";
@@ -229,13 +215,30 @@ body {
   filter: blur(6px);
 }
 
+/* System messages (join / left notifications) */
+.system {
+  align-self: center;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border: none;
+  box-shadow: none;
+  padding: 4px 8px;
+  margin: 8px 0;
+}
+
 /* ========== Input Area ========== */
 #send-container {
+  flex-shrink: 0; /* don't shrink */
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: 4px;
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.03)
+  );
   border-radius: var(--radius-pill);
   padding: 6px 8px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -425,10 +428,6 @@ body {
   }
 
   .brand-subtitle {
-    display: none; /* keep it clean on very small screens */
-  }
-
-  .nav-right {
-    display: none; /* optional: hide status on very small devices */
+    display: none; /* keep small screens clean */
   }
 }

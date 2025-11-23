@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HiChat - Realtime Chat App</title>
 
   <!-- socket.io client served from the socket server -->
   <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script defer src="js/client.js"></script>
+
+  <!-- Main stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -15,6 +17,7 @@
     <!-- Top Navbar -->
     <nav class="navbar">
       <div class="brand">
+        <!-- Using your own logo image -->
         <img class="logo" src="chatt.png" alt="HiChat logo" />
         <div class="brand-text">
           <h1 class="brand-title">HiChat</h1>
@@ -31,10 +34,10 @@
 
     <!-- Chat Area -->
     <main class="chat-wrapper">
-      <!-- Messages container (logic depends on this class) -->
-      <div class="container"></div>
+      <!-- Messages container (logic can use .container or #messages-container) -->
+      <div class="container" id="messages-container"></div>
 
-      <!-- Input form (logic depends on this id & input id) -->
+      <!-- Input form -->
       <form action="#" id="send-container">
         <input
           type="text"
