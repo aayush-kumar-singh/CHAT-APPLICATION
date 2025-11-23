@@ -1,35 +1,54 @@
-// node server which will handle socket io connections
-// run: node server.js
-const io = require('socket.io')(8000, {
+// nodeServer/index.js
+
+const express = require("express");
+const path = require("path");
+const http = require("http");
+const { Server } = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
+
+// Render will give PORT in env, use 8000 locally
+const port = process.env.PORT || 8000;
+
+const io = new Server(server, {
   cors: {
-    origin: '*', // permissive for development; restrict in production
-    methods: ['GET', 'POST']
-  }
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
 });
+
+// serve static files from /public
+app.use(express.static(path.join(__dirname, "public")));
 
 const users = {};
 
-io.on('connection', socket => {
-  // new user joined
-  socket.on('new-user-joined', name => {
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("new-user-joined", (name) => {
     console.log("New user", name);
     users[socket.id] = name;
-    // broadcast to all except the joining socket
-    socket.broadcast.emit('user-joined', name);
+    socket.broadcast.emit("user-joined", name);
   });
 
-  // receiving a message from a client
-  socket.on('send', message => {
-    // broadcast to all other clients
-    socket.broadcast.emit('receive', { message: message, name: users[socket.id] });
+  socket.on("send", (message) => {
+    socket.broadcast.emit("receive", {
+      message: message,
+      name: users[socket.id],
+    });
   });
 
-  // when somebody disconnects
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
     const name = users[socket.id];
     if (name) {
-      socket.broadcast.emit('left', name);
+      socket.broadcast.emit("left", name);
       delete users[socket.id];
     }
+    console.log("User disconnected:", socket.id);
   });
+});
+
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
